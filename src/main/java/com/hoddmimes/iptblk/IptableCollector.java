@@ -21,7 +21,7 @@ public class IptableCollector
 
     // 2019-08-11 01:04:52 hoddmimes sendmail[8767]: x7AN4lnx008767: [185.234.219.103] did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA
     //  Unauthorized connection attempt
-    MailPattern MX_UnAuthConnPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: \\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\] did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA");
+    MailPattern MX_UnAuthConnPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: [^\\s]*\\s*\\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\] [\\(may be forged\\) ]*did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA");
 
 
     // 2019-08-12 13:30:45 hoddmimes sendmail[18994]: x7CBUc0i018991: to=bertilsson_mail, delay=00:00:01, xdelay=00:00:00, mailer=local, pri=203870, dsn=2.0.0, stat=Sent
@@ -338,6 +338,7 @@ public class IptableCollector
 
     private void scan_mail_log( ReadCache pReadCache ) {
         String tLine = pReadCache.getCurrentLine();
+
 
         if (MX_UnAuthConnPattern.match(tLine)) {
             String  tIpAddr = MX_UnAuthConnPattern.getIpAddr();
