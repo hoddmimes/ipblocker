@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'com.hoddmimes'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+ant.taskdef(
+        name: 'scp',
+        classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
+        classpath: 'libs/ant-jsch.jar:libs/jsch-0.1.54.jar')
+
+build.doLast {
+    ant.scp( file : "./build/libs/iptblk-1.0.jar", trust : 'yes', keyfile : '${user.home}/.ssh/id_rsa', port : 11721,  todir : "bertilsson@www.hoddmimes.com:/usr/local/iptblocker/libs/")
+}
+
+dependencies {
+    compile files('libs/gson-2.8.5.jar')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
