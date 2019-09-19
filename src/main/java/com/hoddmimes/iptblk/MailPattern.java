@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class MailPattern
 {
-    static Pattern cAddrPattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+)");
+    static Pattern cAddrPattern = Pattern.compile("\\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\]");
     static Pattern cQidPattern = Pattern.compile("sendmail\\[\\d+\\]: (\\w+):");
     static Pattern cTimePattern = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+)");
     static Pattern cLogDatePattern = Pattern.compile("^(\\d+-\\d+-\\d+)");

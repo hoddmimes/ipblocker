@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9719fda1-2bda-4330-9203-52f972b88183" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -53,11 +52,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="341" selection-start-line="341" selection-end-line="341" />
+            <state relative-caret-position="4942">
+              <caret line="342" column="32" selection-start-line="342" selection-start-column="12" selection-end-line="342" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -68,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maillog">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="107" selection-start-line="2" selection-start-column="107" selection-end-line="2" selection-end-column="107" />
+            <state relative-caret-position="60">
+              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
             </state>
           </provider>
         </entry>
@@ -77,7 +76,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/BadIpAddr.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
+            <state relative-caret-position="450">
               <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -103,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="45">
+              <caret line="7" column="84" selection-start-line="7" selection-start-column="84" selection-end-line="7" selection-end-column="84" />
             </state>
           </provider>
         </entry>
@@ -163,14 +162,16 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/BadIpAddr.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" />
+        <option value="$PROJECT_DIR$/maillog" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="568" />
-    <option name="y" value="222" />
-    <option name="width" value="1920" />
-    <option name="height" value="974" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="334" />
+    <option name="y" value="216" />
+    <option name="width" value="1910" />
+    <option name="height" value="981" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -178,8 +179,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -217,10 +216,12 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568820795302" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568874542672" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -303,9 +304,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="2560" height="1413" extended-state="6" />
+    <frame x="334" y="216" width="1910" height="981" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16308671" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22424893" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -314,8 +315,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297619" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21630093" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39890283" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.21563981" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.6030806" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -329,7 +330,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Maven" order="4" />
-      <window_info anchor="right" id="Gradle" order="5" visible="true" weight="0.17820206" />
+      <window_info anchor="right" id="Gradle" order="5" visible="true" weight="0.24034335" />
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
@@ -357,7 +358,7 @@
     <entry file="file://$PROJECT_DIR$/iptables.cmd" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/BadIpAddr.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
+        <state relative-caret-position="450">
           <caret line="30" selection-start-line="30" selection-end-line="30" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -373,16 +374,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/ReadCache.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -390,20 +381,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/ReadCache.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/maillog">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="107" selection-start-line="2" selection-start-column="107" selection-end-line="2" selection-end-column="107" />
+        <state relative-caret-position="60">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="341" selection-start-line="341" selection-end-line="341" />
+        <state relative-caret-position="4942">
+          <caret line="342" column="32" selection-start-line="342" selection-start-column="12" selection-end-line="342" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="7" column="84" selection-start-line="7" selection-start-column="84" selection-end-line="7" selection-end-column="84" />
         </state>
       </provider>
     </entry>
