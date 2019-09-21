@@ -21,17 +21,17 @@ public class IptableCollector
 
     // 2019-08-11 01:04:52 hoddmimes sendmail[8767]: x7AN4lnx008767: [185.234.219.103] did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA
     //  Unauthorized connection attempt
-    MailPattern MX_UnAuthConnPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: [^\\s]*\\s*\\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\] [\\(may be forged\\) ]*did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA");
+    MailPattern MX_UnAuthConnPattern_1 = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: [^\\s]*\\s*\\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\] [\\(may be forged\\) ]*did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA");
 
 
-    // 2019-08-12 13:30:45 hoddmimes sendmail[18994]: x7CBUc0i018991: to=bertilsson_mail, delay=00:00:01, xdelay=00:00:00, mailer=local, pri=203870, dsn=2.0.0, stat=Sent
-    // Sent from, will be followed by a SentPattern
-    MailPattern MX_SentFromPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: from=([^,]+), .+ relay=(.+)");
+    //2019-09-21 09:13:15 hoddmimes sendmail[9671]: x8L7D8YA009671: ruleset=check_rcpt, arg1=<mail@bertilzon.com>, relay=46-120-251-9.static.012.net.il
+    // [46.120.251.9] (may be forgeRelyingd), reject=550 5.7.1 <mail@bertilzon.com>... Relaying denied. IP name possibly forged [46.120.251.9]
+    MailPattern MX_UnAuthConnPattern_2 = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: .+ reject=.+Relaying denied.+");
 
 
     // 2019-08-12 13:30:45 hoddmimes sendmail[18994]: x7CBUc0i018991: to=bertilsson_mail, delay=00:00:01, xdelay=00:00:00, mailer=local, pri=203870, dsn=2.0.0, stat=Sent
     // Sent notification, linked to (prev) SenfFromPattern
-    MailPattern MX_SentPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: .\\w+: to=(.+) delay=.+ stat=Sent.*");
+    MailPattern MX_SentPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: .+ reject=.+Relaying denied.+");
 
     // 2019-08-11 23:06:55 hoddmimes sendmail[14209]: x7BL5tbV014209: ruleset=check_rcpt, arg1=<anna.bertilsson@bertilzon.com>, relay=186-249-231-162.centurytelecom.net.br [186.249.231.162] (may be forged), reject=550 5.7.1 <anna.bertilsson@bertilzon.com>... Mail from 186.249.231.162 refused - see http://www.barracudacentral.org/rbl/
     // Spam reject
@@ -340,9 +340,13 @@ public class IptableCollector
         String tLine = pReadCache.getCurrentLine();
 
 
-        if (MX_UnAuthConnPattern.match(tLine)) {
-            String  tIpAddr = MX_UnAuthConnPattern.getIpAddr();
-            String tTimeStr = MX_UnAuthConnPattern.getTime();
+        if (MX_UnAuthConnPattern_1.match(tLine)) {
+            String tIpAddr = MX_UnAuthConnPattern_1.getIpAddr();
+            String tTimeStr = MX_UnAuthConnPattern_1.getTime();
+            updateIpEntries(tIpAddr, tTimeStr, "Mail");
+        }  if (MX_UnAuthConnPattern_2.match(tLine)) {
+            String  tIpAddr = MX_UnAuthConnPattern_2.getIpAddr();
+            String tTimeStr = MX_UnAuthConnPattern_2.getTime();
             updateIpEntries( tIpAddr, tTimeStr, "Mail");
         } else if (MX_SSLUnAuthConnPattern.match(tLine)) {
             String  tIpAddr = MX_SSLUnAuthConnPattern.getIpAddr();
