@@ -374,7 +374,7 @@ public class IptableCollector
             tEntry = new BadIpAddr( pIpAddr, pTimeStr, true, pService);
             mBadIpEntries.put( pIpAddr, tEntry );
 
-        } else {
+        } else if (!localAddr( pIpAddr)) {
             tEntry.updateTime( pTimeStr );
         }
     }
