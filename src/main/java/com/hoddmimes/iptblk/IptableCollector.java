@@ -35,7 +35,7 @@ public class IptableCollector
 
     // 2019-08-11 23:06:55 hoddmimes sendmail[14209]: x7BL5tbV014209: ruleset=check_rcpt, arg1=<anna.bertilsson@bertilzon.com>, relay=186-249-231-162.centurytelecom.net.br [186.249.231.162] (may be forged), reject=550 5.7.1 <anna.bertilsson@bertilzon.com>... Mail from 186.249.231.162 refused - see http://www.barracudacentral.org/rbl/
     // Spam reject
-    MailPattern MX_SpamRejectPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: .+ reject=550 .+ mBlackListTimeMail from (\\d+\\.\\d+\\.\\d+\\.\\d+) refused .+");
+    MailPattern MX_SpamRejectPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: \\w+: .+ reject=550 .+ Mail from (\\d+\\.\\d+\\.\\d+\\.\\d+) refused .+");
 
     // 2019-08-11 12:25:57 hoddmimes sendmail[12085]: x7BAPo6j012085: kalle.kalle [77.40.2.16] (may be forged) did not issue MAIL/EXPN/VRFY/ETRN during connection to MSA
     // SSL reject
