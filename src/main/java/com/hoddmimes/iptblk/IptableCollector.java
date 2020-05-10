@@ -41,6 +41,8 @@ public class IptableCollector
     // SSL reject
     MailPattern MX_SSLUnAuthConnPattern = new MailPattern("(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: .+: [^ ]*\\s?\\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\].+MSA");
 
+    // 2020-05-03 00:53:36 hoddmimes sendmail[15354]: 042Mra6V015354: rejecting commands from zg-0428c-417.stretchoid.com [162.243.140.87] due to pre-greeting traffic after 0 seconds
+    MailPattern MX_pre_greeting = new MailPattern("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) \\w+ sendmail\\[\\d+\\]: .+ \\[(\\d+\\.\\d+\\.\\d+\\.\\d+)\\] due to pre-greeting traffic after \\d+ seconds");
 
 
 
@@ -49,6 +51,7 @@ public class IptableCollector
     long mBlackListTime = 60L * 60L * 1000L;
     String mScanDate = null;
     String mInMailLog = "/var/log/maillog";
+    String mInSecureLog = "/var/log/secure";
     String mInHttpLog = "/var/log/http/hoddmimes_error_log";
     String mIpTableCmdFile = "iptables.cmd";
     String mOutFileDir = "./";
@@ -85,6 +88,7 @@ public class IptableCollector
                 loadStateFromRunDb();
             }
 
+            this.scan_secure_log();
             this.scan_mail_log();
             this.scan_http_log();
             this.analyze();
@@ -258,6 +262,9 @@ public class IptableCollector
             if (args[i].compareToIgnoreCase("-maillog") == 0) {
                 mInMailLog = args[i+1];
             }
+            if (args[i].compareToIgnoreCase("-secure") == 0) {
+                mInSecureLog = args[i+1];
+            }
             if (args[i].compareToIgnoreCase("-httplog") == 0) {
                 mInHttpLog = args[i+1];
                 i++;
@@ -278,6 +285,36 @@ public class IptableCollector
         }
     }
 
+    private void scan_secure_log() {
+        Pattern tLogDatePattern = Pattern.compile("^(\\d+-\\d+-\\d+)");
+        Pattern tErrorPattern = Pattern.compile("^(\\d+-\\d+-\\d+) \\d+:\\d+:\\d+ .* Invalid user .* from (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+");
+
+        mScanDate = SDF.format( System.currentTimeMillis());
+
+        File tFile =  new File( mInSecureLog );
+        BufferedReader tReader = null;
+        String tLine = null; String tLogDate = null;
+
+        try {
+            tReader = new BufferedReader( new FileReader( tFile ));
+            while ((tLine = tReader.readLine()) != null) {
+                Matcher m = tLogDatePattern.matcher( tLine );
+                tLogDate = (m.find()) ? m.group(1) : "";
+                if (tLogDate.compareTo(mScanDate) == 0) {
+                    m = tErrorPattern.matcher( tLine );
+                    if (m.matches()) {
+                        String tTimeStr = m.group(1);
+                        String tIpAddr = m.group(2);
+                        updateIpEntries( tIpAddr, tTimeStr, "sshd");
+                    }
+                }
+            }
+            tReader.close();
+        }
+        catch( IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void scan_http_log() {
         Pattern tLogDatePattern = Pattern.compile("^\\[(\\d+-\\d+-\\d+)");
         Pattern tErrorPattern = Pattern.compile("^\\[(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+)\\.\\d+\\] \\[error\\] .+ \\[client (\\d+\\.\\d+\\.\\d+\\.\\d+):\\d+\\] script .+ not found or unable to stat");
@@ -355,6 +392,10 @@ public class IptableCollector
         } else if (MX_SpamRejectPattern.match(tLine)) {
             String tIpAddr = MX_SpamRejectPattern.getIpAddr();
             String tTimeStr =  MX_SpamRejectPattern.getTime();
+            updateIpEntries( tIpAddr, tTimeStr, "Mail");
+        } else if (MX_pre_greeting.match(tLine)) {
+            String tIpAddr = MX_pre_greeting.getIpAddr();
+            String tTimeStr =  MX_pre_greeting.getTime();
             updateIpEntries( tIpAddr, tTimeStr, "Mail");
         }
     }
