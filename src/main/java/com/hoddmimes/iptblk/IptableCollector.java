@@ -287,7 +287,7 @@ public class IptableCollector
 
     private void scan_secure_log() {
         Pattern tLogDatePattern = Pattern.compile("^(\\d+-\\d+-\\d+)");
-        Pattern tErrorPattern = Pattern.compile("^(\\d+-\\d+-\\d+) \\d+:\\d+:\\d+ .* Invalid user .* from (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+");
+        Pattern tErrorPattern = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* Invalid user .* from (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+");
 
         mScanDate = SDF.format( System.currentTimeMillis());
 

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9719fda1-2bda-4330-9203-52f972b88183" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -72,8 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="398" selection-start-line="398" selection-end-line="398" />
+            <state relative-caret-position="699">
+              <caret line="310" column="13" lean-forward="true" selection-start-line="310" selection-start-column="13" selection-end-line="310" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -198,8 +197,8 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/BadIpAddr.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/MailPattern.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" />
         <option value="$PROJECT_DIR$/maillog" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java" />
       </list>
     </option>
   </component>
@@ -263,7 +262,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589103598186" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589133115394" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -389,6 +388,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="151" y="55" width="2154" height="1228" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2115019" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -399,7 +399,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297619" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.597235" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23870967" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.60276496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -497,8 +497,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hoddmimes/iptblk/IptableCollector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="398" selection-start-line="398" selection-end-line="398" />
+        <state relative-caret-position="699">
+          <caret line="310" column="13" lean-forward="true" selection-start-line="310" selection-start-column="13" selection-end-line="310" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
