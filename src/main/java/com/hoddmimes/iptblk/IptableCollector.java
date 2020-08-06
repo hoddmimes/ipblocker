@@ -46,7 +46,8 @@ public class IptableCollector
 
 
 
-    String mAllowLocalAddr = "192.168.42";
+
+    ArrayList<String> mAllowedNodes = null;
 
     long mBlackListTime = 60L * 60L * 1000L;
     String mScanDate = null;
@@ -182,7 +183,7 @@ public class IptableCollector
         long tNow = System.currentTimeMillis();
         System.out.println("\n\nAnalyze at " + SDFTIME.format(tNow));
         for (BadIpAddr tEntry : tBadIpList) {
-            if (!localAddr( tEntry.getIpAddr() )) {
+            if (!isAllowedNode( tEntry.getIpAddr() )) {
                 long tInactTimeSec = (tNow - tEntry.getTimeSinceLastActionMs()) / 1000L;
 
                 if (mVerbose) {
@@ -202,26 +203,41 @@ public class IptableCollector
         }
     }
 
-    private boolean localAddr( String pIpAddr ) {
-        if (mAllowLocalAddr == null) {
-            return false;
-        }
+    private boolean isAllowedNode( String pIpAddr ) {
 
         if (pIpAddr.compareTo("127.0.0.1") == 0) {
-            System.out.println("Supressing local addr 127.0.0.1");
             return true;
         }
+       if (mAllowedNodes == null) {
+           return false;
+       }
 
-        if (pIpAddr.startsWith( mAllowLocalAddr)) {
-            System.out.println("Supressing local addr " + pIpAddr );
-            return true;
-        }
-        return false;
+       for( String tAddr : mAllowedNodes) {
+           if (pIpAddr.startsWith( tAddr )) {
+               return true;
+           }
+       }
+       return false;
+    }
+
+
+
+
+    private void parseAllowedNodes( String pNodeList ) {
+       //Remove leading and trailing quotes is presents
+       String tNodes = pNodeList.trim();
+       tNodes = tNodes.replace("\"","").replace(" ","");
+       String[] tNodeArr = tNodes.split(",");
+       for( int i = 0; i < tNodeArr.length; i++) {
+           mAllowedNodes.add( tNodeArr[i]);
+       }
     }
 
     private void parseArguments( String[] args ) {
         int i = 0;
 
+        mAllowedNodes = new ArrayList<>();
+        mAllowedNodes.add("192.168.42");
 
         while( i < args.length) {
 
@@ -236,8 +252,9 @@ public class IptableCollector
                 i++;
             }
 
-            if (args[i].compareToIgnoreCase("-allowLocalAddr") == 0) {
-                mAllowLocalAddr =  args[i+1];
+            if (args[i].compareToIgnoreCase("-allowedNodes") == 0) {
+                mAllowedNodes = new ArrayList<>();
+                parseAllowedNodes( args[i+1] );
                 i++;
             }
 
@@ -277,17 +294,22 @@ public class IptableCollector
             System.out.println("   parameter \"maillog\" " + mInMailLog);
             System.out.println("   parameter \"httplog\" " + mInHttpLog);
             System.out.println("   parameter \"outDir\" " + mOutFileDir);
-            System.out.println("   parameter \"localAddr\" " + mAllowLocalAddr);
             System.out.println("   parameter \"cmdFile\" " + mIpTableCmdFile);
             System.out.println("   parameter \"blacklistTime\" " + mBlackListTime + "   " +
                     (mBlackListTime / 60000L) + " min   ( " + (mBlackListTime / 1000L) + " sec. )");
             System.out.println("   parameter \"reset\" " + mReset);
+            System.out.println("   parameter \"allowedNodes\"");
+            for( String tNode : mAllowedNodes) {
+                System.out.println("   " + tNode );
+            }
         }
     }
 
     private void scan_secure_log() {
         Pattern tLogDatePattern = Pattern.compile("^(\\d+-\\d+-\\d+)");
-        Pattern tErrorPattern = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* Invalid user .* from (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+");
+        Pattern tErrorPattern1 = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* Invalid user .* from (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+");
+        Pattern tErrorPattern2 = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* invalid user .* (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+ \\[preauth\\]");
+
 
         mScanDate = SDF.format( System.currentTimeMillis());
 
@@ -297,11 +319,20 @@ public class IptableCollector
 
         try {
             tReader = new BufferedReader( new FileReader( tFile ));
+            if (mVerbose) {
+                System.out.println("Scanning SECURE log");
+            }
             while ((tLine = tReader.readLine()) != null) {
                 Matcher m = tLogDatePattern.matcher( tLine );
                 tLogDate = (m.find()) ? m.group(1) : "";
                 if (tLogDate.compareTo(mScanDate) == 0) {
-                    m = tErrorPattern.matcher( tLine );
+                    m = tErrorPattern1.matcher( tLine );
+                    if (m.matches()) {
+                        String tTimeStr = m.group(1);
+                        String tIpAddr = m.group(2);
+                        updateIpEntries( tIpAddr, tTimeStr, "sshd");
+                    }
+                    m = tErrorPattern2.matcher( tLine );
                     if (m.matches()) {
                         String tTimeStr = m.group(1);
                         String tIpAddr = m.group(2);
@@ -327,6 +358,9 @@ public class IptableCollector
 
         try {
             tReader = new BufferedReader( new FileReader( tFile ));
+            if (mVerbose) {
+                System.out.println("Scanning HTTP log");
+            }
             while ((tLine = tReader.readLine()) != null) {
                 Matcher m = tLogDatePattern.matcher( tLine );
                 tLogDate = (m.find()) ? m.group(1) : "";
@@ -356,6 +390,9 @@ public class IptableCollector
 
         try {
             tReader = new BufferedReader( new FileReader( tFile ));
+            if (mVerbose) {
+                System.out.println("Scanning MAIL log");
+            }
             while ((tLine = tReader.readLine()) != null) {
                 tLogDate = MailPattern.getLogDate( tLine );
                 if (tLogDate.compareTo(mScanDate) == 0) {
@@ -411,11 +448,11 @@ public class IptableCollector
         }
 
         BadIpAddr tEntry = mBadIpEntries.get( pIpAddr );
-        if ((tEntry == null) && (!localAddr( pIpAddr))) {
+        if ((tEntry == null) && (!isAllowedNode( pIpAddr))) {
             tEntry = new BadIpAddr( pIpAddr, pTimeStr, true, pService);
             mBadIpEntries.put( pIpAddr, tEntry );
 
-        } else if (!localAddr( pIpAddr)) {
+        } else if (!isAllowedNode( pIpAddr)) {
             tEntry.updateTime( pTimeStr );
         }
     }
