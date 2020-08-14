@@ -348,8 +348,8 @@ public class IptableCollector
     }
     private void scan_http_log() {
         Pattern tLogDatePattern = Pattern.compile("^\\[(\\d+-\\d+-\\d+)");
-        Pattern tErrorPattern = Pattern.compile("^\\[(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+)\\.\\d+\\] \\[error\\] .+ \\[client (\\d+\\.\\d+\\.\\d+\\.\\d+):\\d+\\] script .+ not found or unable to stat");
-
+        Pattern tErrorPattern1 = Pattern.compile("^\\[(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+)\\.\\d+\\] \\[error\\] .+ \\[client (\\d+\\.\\d+\\.\\d+\\.\\d+):\\d+\\] .+ script not found or unable to stat.*");
+        //[2020-08-13 22:08:15.384580] [error] [pid 3492] mod_cgid.c(1077): [client 89.158.77.24:3920] AH01264: script not found or unable to stat: /var/www/cgi-bin/kerbynet
         mScanDate = SDF.format( System.currentTimeMillis());
 
         File tFile =  new File( mInHttpLog );
@@ -365,7 +365,7 @@ public class IptableCollector
                 Matcher m = tLogDatePattern.matcher( tLine );
                 tLogDate = (m.find()) ? m.group(1) : "";
                 if (tLogDate.compareTo(mScanDate) == 0) {
-                   m = tErrorPattern.matcher( tLine );
+                   m = tErrorPattern1.matcher( tLine );
                    if (m.matches()) {
                        String tTimeStr = m.group(1);
                        String tIpAddr = m.group(2);
