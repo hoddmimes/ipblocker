@@ -309,6 +309,7 @@ public class IptableCollector
         Pattern tLogDatePattern = Pattern.compile("^(\\d+-\\d+-\\d+)");
         Pattern tErrorPattern1 = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* Invalid user .* from (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+");
         Pattern tErrorPattern2 = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* invalid user .* (\\d+\\.\\d+\\.\\d+\\.\\d+) port \\d+ \\[preauth\\]");
+        Pattern tErrorPattern3 = Pattern.compile("^(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+) .* pam_unix\\(dovecot:auth\\): authentication failure; .* rhost=(\\d+\\.\\d+\\.\\d+\\.\\d+)");
 
 
         mScanDate = SDF.format( System.currentTimeMillis());
@@ -316,12 +317,11 @@ public class IptableCollector
         File tFile =  new File( mInSecureLog );
         BufferedReader tReader = null;
         String tLine = null; String tLogDate = null;
+        int tFoundEntries = 0;
 
         try {
             tReader = new BufferedReader( new FileReader( tFile ));
-            if (mVerbose) {
-                System.out.println("Scanning SECURE log");
-            }
+
             while ((tLine = tReader.readLine()) != null) {
                 Matcher m = tLogDatePattern.matcher( tLine );
                 tLogDate = (m.find()) ? m.group(1) : "";
@@ -331,16 +331,28 @@ public class IptableCollector
                         String tTimeStr = m.group(1);
                         String tIpAddr = m.group(2);
                         updateIpEntries( tIpAddr, tTimeStr, "sshd");
+                        tFoundEntries++;
                     }
                     m = tErrorPattern2.matcher( tLine );
                     if (m.matches()) {
                         String tTimeStr = m.group(1);
                         String tIpAddr = m.group(2);
                         updateIpEntries( tIpAddr, tTimeStr, "sshd");
+                        tFoundEntries++;
+                    }
+                    m = tErrorPattern3.matcher( tLine );
+                    if (m.matches()) {
+                        String tTimeStr = m.group(1);
+                        String tIpAddr = m.group(2);
+                        updateIpEntries( tIpAddr, tTimeStr, "dovecot");
+                        tFoundEntries++;
                     }
                 }
             }
             tReader.close();
+            if (mVerbose) {
+                System.out.println("=====          Scanned SECURE, " + tFoundEntries + " entries found");
+            }
         }
         catch( IOException e) {
             e.printStackTrace();
@@ -351,6 +363,7 @@ public class IptableCollector
         Pattern tErrorPattern1 = Pattern.compile("^\\[(\\d+-\\d+-\\d+ \\d+:\\d+:\\d+)\\.\\d+\\] \\[error\\] .+ \\[client (\\d+\\.\\d+\\.\\d+\\.\\d+):\\d+\\] .+ script not found or unable to stat.*");
         //[2020-08-13 22:08:15.384580] [error] [pid 3492] mod_cgid.c(1077): [client 89.158.77.24:3920] AH01264: script not found or unable to stat: /var/www/cgi-bin/kerbynet
         mScanDate = SDF.format( System.currentTimeMillis());
+        int tFoundEntries = 0;
 
         File tFile =  new File( mInHttpLog );
         BufferedReader tReader = null;
@@ -358,9 +371,6 @@ public class IptableCollector
 
         try {
             tReader = new BufferedReader( new FileReader( tFile ));
-            if (mVerbose) {
-                System.out.println("Scanning HTTP log");
-            }
             while ((tLine = tReader.readLine()) != null) {
                 Matcher m = tLogDatePattern.matcher( tLine );
                 tLogDate = (m.find()) ? m.group(1) : "";
@@ -370,10 +380,14 @@ public class IptableCollector
                        String tTimeStr = m.group(1);
                        String tIpAddr = m.group(2);
                        updateIpEntries( tIpAddr, tTimeStr, "Http");
+                       tFoundEntries++;
                    }
                 }
             }
             tReader.close();
+            if (mVerbose) {
+                System.out.println("=====          Scanned HTTP, " +  tFoundEntries + " entries found");
+            }
         }
         catch( IOException e) {
             e.printStackTrace();
@@ -387,18 +401,22 @@ public class IptableCollector
         File tFile =  new File(mInMailLog);
         BufferedReader tReader = null;
         String tLine = null; String tLogDate = null;
+        int tFoundEntries = 0;
 
         try {
             tReader = new BufferedReader( new FileReader( tFile ));
-            if (mVerbose) {
-                System.out.println("Scanning MAIL log");
-            }
+
             while ((tLine = tReader.readLine()) != null) {
                 tLogDate = MailPattern.getLogDate( tLine );
                 if (tLogDate.compareTo(mScanDate) == 0) {
                     tReadCache.add( tLine );
-                    scan_mail_log( tReadCache );
+                    if (scan_mail_log( tReadCache )) {
+                        tFoundEntries++;
+                    }
                 }
+            }
+            if (mVerbose) {
+                System.out.println("=====          Scanned MAIL, " +  tFoundEntries + " entries found");
             }
         }
         catch( IOException e) {
@@ -410,7 +428,7 @@ public class IptableCollector
         }
     }
 
-    private void scan_mail_log( ReadCache pReadCache ) {
+    private boolean scan_mail_log( ReadCache pReadCache ) {
         String tLine = pReadCache.getCurrentLine();
 
 
@@ -418,23 +436,31 @@ public class IptableCollector
             String tIpAddr = MX_UnAuthConnPattern_1.getIpAddr();
             String tTimeStr = MX_UnAuthConnPattern_1.getTime();
             updateIpEntries(tIpAddr, tTimeStr, "Mail");
-        }  if (MX_UnAuthConnPattern_2.match(tLine)) {
+            return true;
+        }
+        else if (MX_UnAuthConnPattern_2.match(tLine)) {
             String  tIpAddr = MX_UnAuthConnPattern_2.getIpAddr();
             String tTimeStr = MX_UnAuthConnPattern_2.getTime();
             updateIpEntries( tIpAddr, tTimeStr, "Mail");
-        } else if (MX_SSLUnAuthConnPattern.match(tLine)) {
+            return true;
+        }
+        else if (MX_SSLUnAuthConnPattern.match(tLine)) {
             String  tIpAddr = MX_SSLUnAuthConnPattern.getIpAddr();
             String tTimeStr = MX_SSLUnAuthConnPattern.getTime();
             updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            return true;
         } else if (MX_SpamRejectPattern.match(tLine)) {
             String tIpAddr = MX_SpamRejectPattern.getIpAddr();
             String tTimeStr =  MX_SpamRejectPattern.getTime();
             updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            return true;
         } else if (MX_pre_greeting.match(tLine)) {
             String tIpAddr = MX_pre_greeting.getIpAddr();
             String tTimeStr =  MX_pre_greeting.getTime();
             updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            return true;
         }
+        return false;
     }
 
     private void updateIpEntries( String pIpAddr, String pTimeStr, String pService ) {

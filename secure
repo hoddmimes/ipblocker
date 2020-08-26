@@ -1,0 +1,127 @@
+2020-08-23 00:50:09 hoddmimes auth[13792]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-23 00:50:09 hoddmimes auth[13792]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=valsonores@hoddmimes.com rhost=183.89.215.75
+2020-08-23 01:10:51 hoddmimes sshd[17345]: Invalid user jenkins from 14.99.117.134 port 35476
+2020-08-23 01:10:51 hoddmimes sshd[17345]: Received disconnect from 14.99.117.134 port 35476:11: Bye Bye [preauth]
+2020-08-23 01:10:51 hoddmimes sshd[17345]: Disconnected from invalid user jenkins 14.99.117.134 port 35476 [preauth]
+2020-08-23 01:39:01 hoddmimes systemd[22166]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+2020-08-23 02:55:42 hoddmimes sshd[3207]: Invalid user mani from 5.196.67.41 port 51544
+2020-08-23 02:55:42 hoddmimes sshd[3207]: Received disconnect from 5.196.67.41 port 51544:11: Bye Bye [preauth]
+2020-08-23 02:55:42 hoddmimes sshd[3207]: Disconnected from invalid user mani 5.196.67.41 port 51544 [preauth]
+2020-08-23 02:59:20 hoddmimes sshd[3808]: User root from 91.134.147.146 not allowed because not listed in AllowUsers
+2020-08-23 02:59:20 hoddmimes sshd[3808]: Received disconnect from 91.134.147.146 port 53048:11: Bye Bye [preauth]
+2020-08-23 02:59:20 hoddmimes sshd[3808]: Disconnected from invalid user root 91.134.147.146 port 53048 [preauth]
+2020-08-23 05:22:45 hoddmimes auth[28786]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-23 05:22:45 hoddmimes auth[28786]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=par.bertilsson@hoddmimes.com rhost=60.246.2.97
+2020-08-23 07:39:42 hoddmimes auth[20504]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-23 07:39:42 hoddmimes auth[20504]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=par.bertilsson@hoddmimes.com rhost=72.221.232.137
+2020-08-23 08:13:07 hoddmimes auth[26523]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-23 08:13:07 hoddmimes auth[26523]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=par.bertilsson@hoddmimes.com rhost=113.190.235.248
+2020-08-23 08:52:33 hoddmimes sshd[862]: Accepted publickey for bertilsson from 192.168.42.100 port 52830 ssh2: RSA SHA256:gLYmEeh1CNQmarF7Frvf3+Wof2VctJHus5Ts7ncMVZI
+2020-08-23 08:52:33 hoddmimes systemd[866]: pam_unix(systemd-user:session): session opened for user bertilsson by (uid=0)
+2020-08-23 08:52:33 hoddmimes sshd[862]: pam_unix(sshd:session): session opened for user bertilsson by (uid=0)
+2020-08-23 08:52:34 hoddmimes sshd[862]: pam_unix(sshd:session): session closed for user bertilsson
+2020-08-23 08:52:51 hoddmimes sudo[1080]: bertilsson : TTY=pts/1 ; PWD=/home/bertilsson ; USER=root ; COMMAND=/usr/sbin/auditctl -a exit,always -F arch=b64 -S connect -k who-connects
+2020-08-23 08:52:51 hoddmimes sudo[1080]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2020-08-23 08:52:51 hoddmimes sudo[1080]: pam_unix(sudo:session): session closed for user root
+2020-08-23 08:53:29 hoddmimes sudo[1274]: bertilsson : TTY=pts/1 ; PWD=/home/bertilsson ; USER=root ; COMMAND=/usr/sbin/ausearch -i -k who-connects
+2020-08-23 08:53:29 hoddmimes sudo[1274]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2020-08-23 08:53:29 hoddmimes sudo[1274]: pam_unix(sudo:session): session closed for user root
+2020-08-23 08:54:19 hoddmimes sudo[1569]: bertilsson : TTY=pts/1 ; PWD=/home/bertilsson ; USER=root ; COMMAND=/usr/sbin/ausearch -i -k who-connects
+2020-08-23 08:54:19 hoddmimes sudo[1569]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2020-08-23 08:54:19 hoddmimes sudo[1569]: pam_unix(sudo:session): session closed for user root
+2020-08-23 08:55:01 hoddmimes sudo[1693]: bertilsson : TTY=pts/1 ; PWD=/home/bertilsson ; USER=root ; COMMAND=/usr/sbin/ausearch -i -k who-connects
+2020-08-23 08:55:01 hoddmimes sudo[1693]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2020-08-23 08:55:01 hoddmimes sudo[1693]: pam_unix(sudo:session): session closed for user root
+2020-08-23 08:55:57 hoddmimes sshd[1876]: Accepted publickey for bertilsson from 192.168.42.100 port 52853 ssh2: RSA SHA256:gLYmEeh1CNQmarF7Frvf3+Wof2VctJHus5Ts7ncMVZI
+2020-08-23 08:55:57 hoddmimes sshd[1876]: pam_unix(sshd:session): session opened for user bertilsson by (uid=0)
+2020-08-23 08:55:58 hoddmimes sshd[1876]: pam_unix(sshd:session): session closed for user bertilsson
+2020-08-23 08:56:10 hoddmimes su[1965]: pam_unix(su-l:session): session opened for user root by (uid=1000)
+2020-08-23 09:18:18 hoddmimes auth[6409]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-23 09:18:18 hoddmimes auth[6409]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=par.bertilsson@hoddmimes.com rhost=183.89.214.172
+2020-08-23 13:26:18 hoddmimes sshd[25335]: User root from 47.245.55.196 not allowed because not listed in AllowUsers
+2020-08-23 13:26:19 hoddmimes sshd[25335]: Received disconnect from 47.245.55.196 port 36540:11: Bye Bye [preauth]
+2020-08-23 13:26:19 hoddmimes sshd[25335]: Disconnected from invalid user root 47.245.55.196 port 36540 [preauth]
+2020-08-24 01:39:01 hoddmimes systemd[12824]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+2020-08-24 01:39:11 hoddmimes systemd[12825]: pam_unix(systemd-user:session): session closed for user root
+2020-08-24 08:30:00 hoddmimes saslauthd[1251]: pam_unix(smtp:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=  user=bertilsson_mail
+2020-08-24 08:40:01 hoddmimes systemd[2067]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+2020-08-24 08:55:01 hoddmimes systemd[5337]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+2020-08-24 10:05:46 hoddmimes auth[19630]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-24 10:05:46 hoddmimes auth[19630]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=lena.bertilsson@hoddmimes.com rhost=185.221.253.95
+2020-08-24 10:26:03 hoddmimes sshd[23666]: User root from 154.213.22.19 not allowed because not listed in AllowUsers
+2020-08-24 10:26:04 hoddmimes sshd[23666]: Received disconnect from 154.213.22.19 port 46418:11: Bye Bye [preauth]
+2020-08-24 10:26:04 hoddmimes sshd[23666]: Disconnected from invalid user root 154.213.22.19 port 46418 [preauth]
+2020-08-24 12:35:11 hoddmimes sshd[17620]: User root from 89.36.210.121 not allowed because not listed in AllowUsers
+2020-08-24 12:35:11 hoddmimes sshd[17620]: Received disconnect from 89.36.210.121 port 48455:11: Bye Bye [preauth]
+2020-08-24 12:35:11 hoddmimes sshd[17620]: Disconnected from invalid user root 89.36.210.121 port 48455 [preauth]
+2020-08-24 12:57:47 hoddmimes auth[22112]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-24 12:57:47 hoddmimes auth[22112]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=lena.bertilsson@hoddmimes.com rhost=183.89.215.233
+2020-08-24 14:52:18 hoddmimes sshd[13480]: Invalid user consultant from 213.190.4.142 port 58664
+2020-08-24 14:52:18 hoddmimes sshd[13480]: Received disconnect from 213.190.4.142 port 58664:11: Bye Bye [preauth]
+2020-08-24 14:52:18 hoddmimes sshd[13480]: Disconnected from invalid user consultant 213.190.4.142 port 58664 [preauth]
+2020-08-24 14:57:47 hoddmimes sshd[14620]: Invalid user sysadmin from 203.210.232.136 port 51340
+2020-08-24 14:57:48 hoddmimes sshd[14620]: Received disconnect from 203.210.232.136 port 51340:11: Bye Bye [preauth]
+2020-08-24 14:57:48 hoddmimes sshd[14620]: Disconnected from invalid user sysadmin 203.210.232.136 port 51340 [preauth]
+2020-08-24 15:01:07 hoddmimes sshd[15347]: User root from 162.223.89.190 not allowed because not listed in AllowUsers
+2020-08-24 15:01:08 hoddmimes sshd[15347]: Received disconnect from 162.223.89.190 port 55116:11: Bye Bye [preauth]
+2020-08-24 15:01:08 hoddmimes sshd[15347]: Disconnected from invalid user root 162.223.89.190 port 55116 [preauth]
+2020-08-24 15:09:25 hoddmimes sshd[17053]: Invalid user iqbal from 134.209.236.191 port 37496
+2020-08-24 15:09:26 hoddmimes sshd[17053]: Received disconnect from 134.209.236.191 port 37496:11: Bye Bye [preauth]
+2020-08-24 15:09:26 hoddmimes sshd[17053]: Disconnected from invalid user iqbal 134.209.236.191 port 37496 [preauth]
+2020-08-24 16:41:31 hoddmimes sshd[4016]: Invalid user srinivas from 15.206.17.117 port 4726
+2020-08-24 16:41:32 hoddmimes sshd[4016]: Received disconnect from 15.206.17.117 port 4726:11: Bye Bye [preauth]
+2020-08-24 16:41:32 hoddmimes sshd[4016]: Disconnected from invalid user srinivas 15.206.17.117 port 4726 [preauth]
+2020-08-24 17:18:21 hoddmimes sshd[11635]: Invalid user admin from 34.85.43.171 port 39350
+2020-08-24 17:18:21 hoddmimes sshd[11635]: Received disconnect from 34.85.43.171 port 39350:11: Bye Bye [preauth]
+2020-08-24 17:18:21 hoddmimes sshd[11635]: Disconnected from invalid user admin 34.85.43.171 port 39350 [preauth]
+2020-08-24 17:34:38 hoddmimes sshd[14995]: Invalid user vada from 201.124.116.0 port 52209
+2020-08-24 17:34:38 hoddmimes sshd[14995]: Received disconnect from 201.124.116.0 port 52209:11: Bye Bye [preauth]
+2020-08-24 17:34:38 hoddmimes sshd[14995]: Disconnected from invalid user vada 201.124.116.0 port 52209 [preauth]
+2020-08-24 17:44:58 hoddmimes sshd[17066]: Invalid user honey from 185.235.40.80 port 48334
+2020-08-24 17:44:58 hoddmimes sshd[17066]: Received disconnect from 185.235.40.80 port 48334:11: Bye Bye [preauth]
+2020-08-24 17:44:58 hoddmimes sshd[17066]: Disconnected from invalid user honey 185.235.40.80 port 48334 [preauth]
+2020-08-24 18:00:53 hoddmimes sshd[20246]: Invalid user laura from 60.248.218.128 port 37915
+2020-08-24 18:00:53 hoddmimes sshd[20246]: Received disconnect from 60.248.218.128 port 37915:11: Bye Bye [preauth]
+2020-08-24 18:00:53 hoddmimes sshd[20246]: Disconnected from invalid user laura 60.248.218.128 port 37915 [preauth]
+2020-08-24 18:01:02 hoddmimes sshd[20288]: Invalid user csx from 73.89.52.125 port 44653
+2020-08-24 18:01:02 hoddmimes sshd[20288]: Received disconnect from 73.89.52.125 port 44653:11: Bye Bye [preauth]
+2020-08-24 18:01:02 hoddmimes sshd[20288]: Disconnected from invalid user csx 73.89.52.125 port 44653 [preauth]
+2020-08-24 18:03:37 hoddmimes sshd[20824]: Invalid user debian from 195.146.10.115 port 46470
+2020-08-24 18:03:37 hoddmimes sshd[20824]: Received disconnect from 195.146.10.115 port 46470:11: Bye Bye [preauth]
+2020-08-24 18:03:37 hoddmimes sshd[20824]: Disconnected from invalid user debian 195.146.10.115 port 46470 [preauth]
+2020-08-24 19:09:25 hoddmimes sshd[2269]: Invalid user ftpadmin from 34.80.168.36 port 51124
+2020-08-24 19:09:26 hoddmimes sshd[2269]: Received disconnect from 34.80.168.36 port 51124:11: Bye Bye [preauth]
+2020-08-24 19:09:26 hoddmimes sshd[2269]: Disconnected from invalid user ftpadmin 34.80.168.36 port 51124 [preauth]
+2020-08-24 20:55:16 hoddmimes sshd[24486]: User root from 50.246.53.29 not allowed because not listed in AllowUsers
+2020-08-24 20:55:16 hoddmimes sshd[24486]: Received disconnect from 50.246.53.29 port 46750:11: Bye Bye [preauth]
+2020-08-24 20:55:16 hoddmimes sshd[24486]: Disconnected from invalid user root 50.246.53.29 port 46750 [preauth]
+2020-08-24 23:08:43 hoddmimes sshd[19877]: Invalid user narendra from 65.151.160.89 port 45890
+2020-08-24 23:08:43 hoddmimes sshd[19877]: Received disconnect from 65.151.160.89 port 45890:11: Bye Bye [preauth]
+2020-08-24 23:08:43 hoddmimes sshd[19877]: Disconnected from invalid user narendra 65.151.160.89 port 45890 [preauth]
+2020-08-24 23:10:14 hoddmimes saslauthd[1253]: pam_unix(smtp:auth): check pass; user unknown
+2020-08-24 23:10:14 hoddmimes saslauthd[1253]: pam_unix(smtp:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=
+2020-08-24 23:14:43 hoddmimes sshd[21078]: User root from 212.98.190.106 not allowed because not listed in AllowUsers
+2020-08-24 23:14:43 hoddmimes sshd[21078]: Received disconnect from 212.98.190.106 port 33822:11: Bye Bye [preauth]
+2020-08-24 23:14:43 hoddmimes sshd[21078]: Disconnected from invalid user root 212.98.190.106 port 33822 [preauth]
+2020-08-24 23:17:35 hoddmimes sshd[21654]: Invalid user zc from 45.129.183.136 port 60552
+2020-08-24 23:17:35 hoddmimes sshd[21654]: Received disconnect from 45.129.183.136 port 60552:11: Bye Bye [preauth]
+2020-08-24 23:17:35 hoddmimes sshd[21654]: Disconnected from invalid user zc 45.129.183.136 port 60552 [preauth]
+2020-08-25 01:39:01 hoddmimes systemd[18055]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+2020-08-25 03:35:41 hoddmimes auth[9539]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-25 03:35:41 hoddmimes auth[9539]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=lena.bertilsson@hoddmimes.com rhost=183.88.243.218
+2020-08-25 10:54:55 hoddmimes auth[2016]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-25 10:54:55 hoddmimes auth[2016]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=lena.bertilsson@hoddmimes.com rhost=73.36.232.192
+2020-08-25 18:43:03 hoddmimes auth[32422]: pam_unix(dovecot:auth): check pass; user unknown
+2020-08-25 18:43:03 hoddmimes auth[32422]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=lena.bertilsson@hoddmimes.com rhost=184.178.172.7
+2020-08-25 23:10:14 hoddmimes saslauthd[1251]: pam_unix(smtp:auth): check pass; user unknown
+2020-08-25 23:10:14 hoddmimes saslauthd[1251]: pam_unix(smtp:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=
+2020-08-26 01:03:55 hoddmimes sshd[12852]: User root from 149.129.222.49 not allowed because not listed in AllowUsers
+2020-08-26 01:03:55 hoddmimes sshd[12852]: Received disconnect from 149.129.222.49 port 47682:11: Bye Bye [preauth]
+2020-08-26 01:03:55 hoddmimes sshd[12852]: Disconnected from invalid user root 149.129.222.49 port 47682 [preauth]
+2020-08-26 01:39:01 hoddmimes systemd[19879]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+2020-08-26 05:50:25 hoddmimes sshd[6129]: Invalid user ubuntu from 3.127.220.214 port 38930
+2020-08-26 05:50:25 hoddmimes sshd[6129]: Received disconnect from 3.127.220.214 port 38930:11: Bye Bye [preauth]
+2020-08-26 05:50:25 hoddmimes sshd[6129]: Disconnected from invalid user ubuntu 3.127.220.214 port 38930 [preauth]
+2020-08-26 06:00:48 hoddmimes sshd[8327]: Invalid user edp from 182.56.29.87 port 40580
+2020-08-26 06:00:48 hoddmimes sshd[8327]: Received disconnect from 182.56.29.87 port 40580:11: Bye Bye [preauth]
+2020-08-26 06:00:48 hoddmimes sshd[8327]: Disconnected from invalid user edp 182.56.29.87 port 40580 [preauth]
