@@ -90,6 +90,18 @@ My HTTP server is Apachache and to align the timeformat I had to change the **ht
  
  - For the logfiles add the format, under each virtual server e.g
     - *CustomLog logs/hoddmimes_access_log common env=!dontlog*
+    
+    
+  ### IPTABLES
+  
+  Information about *iptables* on server is the mechanism blocking host to connect. Information about *iptables* can be found
+  [here](https://www.booleanworld.com/depth-guide-iptables-linux-firewall/).
+  
+  To see what blocking filter that are in place and how many connection that has been blocked can be obtained with the following comand 
+  
+  <code>
+  $ iptables -L -v -n 
+  </code> 
 
  
  
