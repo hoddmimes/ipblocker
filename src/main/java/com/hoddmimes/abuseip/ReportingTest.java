@@ -15,7 +15,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -23,14 +25,33 @@ import java.util.ArrayList;
 
 public class ReportingTest
 {
+    private static final String ABUSEIP_APIKEY_FILE = "abuseip-apikey.txt";
+    String mAbuseIpApiKey = null;
 
     public static void main(String args[] )
     {
         ReportingTest rt = new ReportingTest();
+        rt.loadAbuseIpApiKey();
         rt.testEndpointReporting();
         //rt.testBulkReporting();
     }
 
+    private void loadAbuseIpApiKey() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(ABUSEIP_APIKEY_FILE));
+            for(String tLine; (tLine = br.readLine()) != null; )
+            {
+                if ((tLine.length() > 0) && (!tLine.startsWith("#")) && (mAbuseIpApiKey == null)) {
+                    mAbuseIpApiKey = tLine.trim();
+                    break;
+                }
+            }
+            br.close();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+    }
 
     private void testEndpointReporting() {
         String tURL = "https://api.abuseipdb.com/api/v2/report";
@@ -39,7 +60,7 @@ public class ReportingTest
             CloseableHttpClient tClient = HttpClients.createDefault();
             HttpPost tRequest = new HttpPost( tURL );
 
-            tRequest.addHeader("Key", "b0515259c2ef368f5064c8d108b93bd6224802ec0a73031ec040dd842d572354fef8893ee5312dec");
+            tRequest.addHeader("Key", mAbuseIpApiKey);
             tRequest.addHeader("Accept", "application/json");
 
             List<NameValuePair> tParams = new ArrayList<>();
@@ -89,8 +110,7 @@ public class ReportingTest
 
             CloseableHttpClient tClient = HttpClients.createDefault();
             HttpPost tRequest = new HttpPost( tURL );
-            //tRequest.setHeader("Key", "c776abda35d229fc4f70379d7cd0ab9dee6f68421f96fd2f3bd872ea9354e6f6cb85aaf0590824b5");
-            tRequest.setHeader("Key", "b0515259c2ef368f5064c8d108b93bd6224802ec0a73031ec040dd842d572354fef8893ee5312dec");
+            tRequest.setHeader("Key", mAbuseIpApiKey);
             tRequest.setHeader("Accept", "application/json");
             tRequest.setHeader("Accept-Encoding", "identity'");
             tRequest.setEntity(entityBuilder.build());
