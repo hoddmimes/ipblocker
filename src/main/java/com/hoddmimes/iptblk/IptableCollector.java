@@ -1,6 +1,9 @@
 package com.hoddmimes.iptblk;
 
 
+import com.hoddmimes.abuseip.AbuseCategory;
+import com.hoddmimes.abuseip.AbuseIP;
+
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,9 +17,6 @@ public class IptableCollector
 {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat SDFTIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-
-
 
 
     // 2019-08-11 01:04:52 hoddmimes sendmail[8767]: x7AN4lnx008767: [185.234.219.103] did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA
@@ -48,7 +48,9 @@ public class IptableCollector
 
 
     ArrayList<String> mAllowedNodes = null;
+    AbuseIP mAbuseIP = null;
 
+    long mAbuseReportingInterval = (6L * 3600L * 1000L);
     long mBlackListTime = 60L * 60L * 1000L;
     String mScanDate = null;
     String mInMailLog = "/var/log/maillog";
@@ -57,6 +59,8 @@ public class IptableCollector
     String mIpTableCmdFile = "iptables.cmd";
     String mOutFileDir = "./";
     String mRunDbFile = "IPTRUN.DB";
+    boolean mCreateCmdFile = true;
+    boolean mAbuseIpReporting = false;
     boolean mReset = true;
     boolean mVerbose = true;
 
@@ -74,11 +78,19 @@ public class IptableCollector
             bic.parseArguments( args );
             bic.initialize();
             bic.process();
+            bic.postProcess();
 
             System.out.println("[ Execution Time: " + (System.currentTimeMillis() - t1) + " ms. ]");
     }
 
 
+    private void postProcess() {
+        if (mAbuseIP != null) {
+            mAbuseIP.doAbuseBulkReporting();
+            mAbuseIP.saveDB();
+        }
+
+    }
 
     private void process() {
 
@@ -147,6 +159,10 @@ public class IptableCollector
     private void initialize() {
         mScanDate = SDF.format( System.currentTimeMillis() );
         mBadIpEntries = new HashMap<>();
+
+        if (mAbuseIpReporting) {
+            mAbuseIP = new AbuseIP( false, mAbuseReportingInterval, mVerbose );
+        }
     }
 
 
@@ -242,6 +258,21 @@ public class IptableCollector
         while( i < args.length) {
 
 
+            if (args[i].compareToIgnoreCase("-abuseReportingInterval") == 0) {
+                mAbuseReportingInterval = Long.parseLong( args[i+1] )  * (3600L * 1000L);
+                i++;
+            }
+
+            if (args[i].compareToIgnoreCase("-createCmd") == 0) {
+                mCreateCmdFile =  Boolean.parseBoolean( args[i+1] );
+                i++;
+            }
+            if (args[i].compareToIgnoreCase("-abuseIp") == 0) {
+                mAbuseIpReporting =  Boolean.parseBoolean( args[i+1] );
+                i++;
+            }
+
+
             if (args[i].compareToIgnoreCase("-blacklistTime") == 0) {
                 mBlackListTime =  Long.parseLong( args[i+1] ) * 60L * 1000L;
                 i++;
@@ -295,6 +326,9 @@ public class IptableCollector
             System.out.println("   parameter \"httplog\" " + mInHttpLog);
             System.out.println("   parameter \"outDir\" " + mOutFileDir);
             System.out.println("   parameter \"cmdFile\" " + mIpTableCmdFile);
+            System.out.println("   parameter \"abuseReportingInterval\" " + (mAbuseReportingInterval/1000L) + " sec");
+            System.out.println("   parameter \"createCmd\" " + mCreateCmdFile);
+            System.out.println("   parameter \"abuseIp\" " + mAbuseIpReporting);
             System.out.println("   parameter \"blacklistTime\" " + mBlackListTime + "   " +
                     (mBlackListTime / 60000L) + " min   ( " + (mBlackListTime / 1000L) + " sec. )");
             System.out.println("   parameter \"reset\" " + mReset);
@@ -330,21 +364,21 @@ public class IptableCollector
                     if (m.matches()) {
                         String tTimeStr = m.group(1);
                         String tIpAddr = m.group(2);
-                        updateIpEntries( tIpAddr, tTimeStr, "sshd");
+                        updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.SSH, tLine);
                         tFoundEntries++;
                     }
                     m = tErrorPattern2.matcher( tLine );
                     if (m.matches()) {
                         String tTimeStr = m.group(1);
                         String tIpAddr = m.group(2);
-                        updateIpEntries( tIpAddr, tTimeStr, "sshd");
+                        updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.SSH, tLine);
                         tFoundEntries++;
                     }
                     m = tErrorPattern3.matcher( tLine );
                     if (m.matches()) {
                         String tTimeStr = m.group(1);
                         String tIpAddr = m.group(2);
-                        updateIpEntries( tIpAddr, tTimeStr, "dovecot");
+                        updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.DOVECOT, tLine);
                         tFoundEntries++;
                     }
                 }
@@ -379,7 +413,7 @@ public class IptableCollector
                    if (m.matches()) {
                        String tTimeStr = m.group(1);
                        String tIpAddr = m.group(2);
-                       updateIpEntries( tIpAddr, tTimeStr, "Http");
+                       updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.WEB, tLine );
                        tFoundEntries++;
                    }
                 }
@@ -435,39 +469,46 @@ public class IptableCollector
         if (MX_UnAuthConnPattern_1.match(tLine)) {
             String tIpAddr = MX_UnAuthConnPattern_1.getIpAddr();
             String tTimeStr = MX_UnAuthConnPattern_1.getTime();
-            updateIpEntries(tIpAddr, tTimeStr, "Mail");
+            updateIpEntries(tIpAddr, tTimeStr, AbuseCategory.MAIL, tLine);
             return true;
         }
         else if (MX_UnAuthConnPattern_2.match(tLine)) {
             String  tIpAddr = MX_UnAuthConnPattern_2.getIpAddr();
             String tTimeStr = MX_UnAuthConnPattern_2.getTime();
-            updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.MAIL, tLine);
             return true;
         }
         else if (MX_SSLUnAuthConnPattern.match(tLine)) {
             String  tIpAddr = MX_SSLUnAuthConnPattern.getIpAddr();
             String tTimeStr = MX_SSLUnAuthConnPattern.getTime();
-            updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.MAIL, tLine);
             return true;
         } else if (MX_SpamRejectPattern.match(tLine)) {
             String tIpAddr = MX_SpamRejectPattern.getIpAddr();
             String tTimeStr =  MX_SpamRejectPattern.getTime();
-            updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.MAIL, tLine);
             return true;
         } else if (MX_pre_greeting.match(tLine)) {
             String tIpAddr = MX_pre_greeting.getIpAddr();
             String tTimeStr =  MX_pre_greeting.getTime();
-            updateIpEntries( tIpAddr, tTimeStr, "Mail");
+            updateIpEntries( tIpAddr, tTimeStr, AbuseCategory.MAIL, tLine);
             return true;
         }
         return false;
     }
 
-    private void updateIpEntries( String pIpAddr, String pTimeStr, String pService ) {
+    private void updateIpEntries(String pIpAddr, String pTimeStr, AbuseCategory pService, String pComment ) {
         long tTimeDiff = 0;
-
-        try { tTimeDiff = System.currentTimeMillis() - SDFTIME.parse( pTimeStr).getTime(); }
+        long tAbuseLogTime = 0;
+        try {
+            tAbuseLogTime = SDFTIME.parse( pTimeStr).getTime();
+            tTimeDiff = System.currentTimeMillis() - SDFTIME.parse( pTimeStr).getTime();
+        }
         catch( ParseException e) { e.printStackTrace();}
+
+        if ((mAbuseIP != null) && (!isAllowedNode( pIpAddr))) {
+            mAbuseIP.report( pIpAddr, pService, pComment, tAbuseLogTime );
+        }
 
         if (tTimeDiff > mBlackListTime) {
             return;
@@ -475,7 +516,7 @@ public class IptableCollector
 
         BadIpAddr tEntry = mBadIpEntries.get( pIpAddr );
         if ((tEntry == null) && (!isAllowedNode( pIpAddr))) {
-            tEntry = new BadIpAddr( pIpAddr, pTimeStr, true, pService);
+            tEntry = new BadIpAddr( pIpAddr, pTimeStr, true, pService.toString());
             mBadIpEntries.put( pIpAddr, tEntry );
 
         } else if (!isAllowedNode( pIpAddr)) {
